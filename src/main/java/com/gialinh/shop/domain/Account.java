@@ -35,15 +35,50 @@ public class Account extends AbstractAuditingEntity implements Serializable {
     private boolean activated = false;
 
     @JsonIgnore
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "accounts_authority",
+            name = "accounts_roles",
             joinColumns = {@JoinColumn(name = "accounts_email", referencedColumnName = "email")},
-            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
+            inverseJoinColumns = {@JoinColumn(name = "roles_name", referencedColumnName = "name")})
     @BatchSize(size = 20)
-    private Set<Authority> authorities = new HashSet<>();
-    @OneToOne
+    private Set<Role> roles = new HashSet<>();
+    @OneToOne(cascade = CascadeType.ALL)
     private AccountInfo accountInfo;
+
+    public Account email(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public Account password(String password) {
+        this.password = password;
+        return this;
+    }
+
+    public Account activated(boolean activated) {
+        this.activated = activated;
+        return this;
+    }
+
+    public Account roles(String... roleNames) {
+        if (this.roles == null) {
+            this.roles = new HashSet<>();
+        }
+        for (String roleName : roleNames) {
+            this.roles.add(new Role(roleName));
+        }
+        return this;
+    }
+
+    public Account accountInfo(AccountInfo accountInfo) {
+        this.accountInfo = accountInfo;
+        return this;
+    }
+
+    public Account createdBy(String name) {
+        super.createdBy = name;
+        return this;
+    }
 
     @Override
     public boolean equals(Object o) {

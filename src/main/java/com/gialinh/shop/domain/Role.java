@@ -1,5 +1,7 @@
 package com.gialinh.shop.domain;
 
+import lombok.Getter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,21 +13,21 @@ import java.util.Objects;
  * @createdAt 2/5/21_1:27 PM
  * @updatedAt 2/5/21_1:27 PM
  *
- * Class entity Authority {@link com.gialinh.shop.domain.Authority}
+ * Class entity Authority {@link Role}
  */
 @Entity
-public class Authority implements Serializable {
+@Getter
+public class Role implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @Column(length = 50)
     private String name;
 
-    public String getName() {
-        return name;
+    public Role() {
     }
 
-    public void setName(String name) {
+    public Role(String name) {
         this.name = name;
     }
 
@@ -34,10 +36,10 @@ public class Authority implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Authority)) {
+        if (!(o instanceof Role)) {
             return false;
         }
-        return Objects.equals(name, ((Authority) o).name);
+        return Objects.equals(name, ((Role) o).name);
     }
 
     @Override
@@ -48,7 +50,7 @@ public class Authority implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "Authority{" +
+        return "Role{" +
                 "name='" + name + '\'' +
                 "}";
     }

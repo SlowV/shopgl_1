@@ -1,12 +1,17 @@
 package com.gialinh.shop.domain;
 
 import com.gialinh.shop.domain.enumeration.Gender;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Objects;
 
@@ -17,10 +22,14 @@ import java.util.Objects;
  *
  * Class entity AccountInfo {@link com.gialinh.shop.domain.AccountInfo}
  */
-@Entity
-@Table(name = "account_info")
 @Getter
 @Setter
+@Entity
+@ToString
+@EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "account_info")
 public class AccountInfo implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -39,8 +48,12 @@ public class AccountInfo implements Serializable {
     @Column(name = "phone", nullable = false)
     private String phone;
 
-    @Column(name = "avatar_url", nullable = false)
-    private String avatarURL;
+    @Lob
+    @Column(name = "avatar", nullable = false)
+    private byte[] avatar;
+
+    @Column(name = "avatar_content_type", nullable = false)
+    private String avatarContentType;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -48,35 +61,7 @@ public class AccountInfo implements Serializable {
     @OneToOne
     private Account account;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof AccountInfo)) return false;
-        AccountInfo that = (AccountInfo) o;
-        return Objects.equals(getId(), that.getId()) &&
-                Objects.equals(getFullName(), that.getFullName()) &&
-                Objects.equals(getDob(), that.getDob()) &&
-                Objects.equals(getAddress(), that.getAddress()) &&
-                Objects.equals(getPhone(), that.getPhone()) &&
-                Objects.equals(getAvatarURL(), that.getAvatarURL()) &&
-                getGender() == that.getGender();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getFullName(), getDob(), getAddress(), getPhone(), getAvatarURL(), getGender());
-    }
-
-    @Override
-    public String toString() {
-        return "AccountInfo{" +
-                "id=" + id +
-                ", fullName='" + fullName + '\'' +
-                ", dob=" + dob +
-                ", address='" + address + '\'' +
-                ", phone='" + phone + '\'' +
-                ", avatarURL='" + avatarURL + '\'' +
-                ", gender=" + gender +
-                '}';
+    public String getImageBase64() {
+        return this.avatarContentType + ", " + Base64.getEncoder().encodeToString(this.avatar);
     }
 }

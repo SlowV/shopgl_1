@@ -1,8 +1,13 @@
 package com.gialinh.shop.controller.admin;
 
+import com.gialinh.shop.service.AccountService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.security.Principal;
 
 /**
  * @author SlowV ❤ H3yae
@@ -11,8 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping(value = "/admin")
-
+@AllArgsConstructor
 public class AdminController {
+    private final AccountService accountService;
 
     @GetMapping
     public String dashboard() {
@@ -64,8 +70,9 @@ public class AdminController {
         return "admin/user";
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "admin/login";
+    @GetMapping("/account/info")
+    public String getAccountInfo(Principal principal, Model model) {
+        model.addAttribute("accountInfo", accountService.findById(principal.getName()).getAccountInfo());
+        return "admin/accountInfo";
     }
 }

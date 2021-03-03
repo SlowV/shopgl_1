@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout" th:with="page='product', title='Sản phẩm'",>
+<head>
+    <meta charset="UTF-8">
+    <title>Gl shop - Sản phẩm</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h4 class="card-title ">Sản phẩm</h4>
+                                <p class="card-category"> Danh sách sản phẩm trong hệ thống</p>
+                            </div>
+                            <div class="col-lg-6 text-right">
+                                <form class="navbar-form table-form w-50 d-inline-block mx-2">
+                                    <div class="input-group no-border">
+                                        <input type="text" value="" class="form-control text-white" placeholder="Tìm kiếm...">
+                                        <button type="submit" class="btn circle text-dark bg-white p-2">
+                                            <i class="material-icons">search</i>
+                                            <div class="ripple-container"></div>
+                                        </button>
+                                    </div>
+                                </form>
+                                <button class="btn p-2 circle text-dark bg-white" id="btnAddProduct" data-toggle="tooltip" data-placement="bottom" title="Thêm mới">
+                                    <i class="material-icons">add</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                <th>
+                                    STT
+                                </th>
+                                <th>
+                                    Email
+                                </th>
+                                <th>
+                                    Trạng thái
+                                </th>
+                                <th>Chức vụ</th>
+                                <th>Thao tác</th>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" role="dialog" id="formProduct">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title form-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" th:object="${product}">
+                        <div class="form-group">
+                            <label for="name"> Tên sản phẩm</label>
+                            <input type="text" name="name" id="name" th:field="*{name}" required class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="quantity">Số lượng kho</label>
+                            <input type="number" name="quantity" id="quantity" th:field="*{name}" required class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="description"> Mô tả</label>
+                            <textarea name="description" id="description" th:field="*{description}" class="form-control"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="script">
+    <script>
+        $('#btnAddProduct').click(function () {
+            $('.form-title').text('Thêm mới sản phẩm');
+            $('#formProduct').modal();
+        });
+    </script>
+</th:block>
+</body>
+</html>

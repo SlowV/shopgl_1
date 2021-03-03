@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout" th:with="page='employee', title='Nhân sự'">
+<head>
+    <title>Gl shop - Nhân sự</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h4 class="card-title ">Nhân sự</h4>
+                                <p class="card-category"> Danh sách nhân sự trong hệ thống</p>
+                            </div>
+                            <div class="col-lg-6 text-right">
+                                <form class="navbar-form">
+                                    <div class="input-group no-border">
+                                        <input type="text" value="" class="form-control text-white" placeholder="Tìm kiếm...">
+                                        <button type="submit" class="btn btn-white btn-round btn-just-icon">
+                                            <i class="material-icons">search</i>
+                                            <div class="ripple-container"></div>
+                                        </button>
+                                    </div>
+                                </form>
+                                <button class="btn p-2 circle text-dark bg-white ">
+                                    <i class="material-icons">person_add</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                <th>
+                                    STT
+                                </th>
+                                <th>
+                                    Email
+                                </th>
+                                <th>
+                                    Trạng thái
+                                </th>
+                                <th>Chức vụ</th>
+                                <th>Thao tác</th>
+                                </thead>
+                                <tbody>
+                                <tr th:each="account, iter : ${pageAccounts.getContent()}"
+                                    style="vertical-align: middle">
+                                    <td th:text="${iter.index + 1}"></td>
+                                    <td th:text="${account.email}"></td>
+                                    <td>
+                                        <input type="checkbox" class="form-check" th:checked="${account.activated}">
+                                    </td>
+                                    <td>
+                                        <span class="badge mx-1" th:each="role : ${account.roles}"
+                                              th:text="${role.getNameDisplayByRole()}"
+                                              th:style="${role.getStyleByRole()}"></span>
+                                    </td>
+                                    <td>
+                                        <button class="mx-1 btn p-2 btn-warning circle text-center"><i
+                                                class="material-icons" title="Sửa">mode_edit</i></button>
+                                        <button class="mx-1 btn p-2 btn-danger circle text-center"><i
+                                                class="material-icons" title="Xoá">person_remove</i></button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

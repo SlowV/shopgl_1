@@ -1,5 +1,12 @@
 package com.gialinh.shop.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -10,7 +17,13 @@ import java.io.Serializable;
  *
  * Class entity Collection {@link com.gialinh.shop.domain.Collection}
  */
+@Getter
+@Setter
 @Entity
+@ToString
+@EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "collections")
 public class Collection extends AbstractAuditingEntity implements Serializable {
     private static final long serialVersionUID = 1L;

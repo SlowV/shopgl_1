@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout" th:with="page='category', title='Danh mục'">
+<head>
+    <meta charset="UTF-8">
+    <title>Gl shop - Danh mục</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title " th:text="${title}"></h4>
+                        <p class="card-category"> Danh sách danh mục trong hệ thống</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row align-items-lg-center">
+                            <div class="col-lg-1">
+                                <input type="checkbox" id="checkAll" name="checkAll">
+                            </div>
+                            <div class="col-lg-2 text-right">
+                                <form class="navbar-form">
+                                    <div class="input-group no-border">
+                                        <input type="text" value="" class="form-control"
+                                               placeholder="Tìm kiếm...">
+                                        <button type="submit" class="btn btn-white circle btn-just-icon">
+                                            <i class="material-icons">search</i>
+                                            <div class="ripple-container"></div>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-lg-9 text-right">
+                                <button class="btn bg-excel btn-sm p-2 btn-round mx-1" title="Xuất excel">
+                                    <i class="material-icons">download</i>
+                                </button>
+                                <button type="button" class="btn btn-warning btn-sm p-2 btn-round mx-1"
+                                        id="btnAddCategory" title="Thêm mới">
+                                    <i class="material-icons">add</i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                <th>
+                                    STT
+                                </th>
+                                <th>
+                                    Tên
+                                </th>
+                                <th>Hình ảnh</th>
+                                <th>
+                                    Ngày tạo
+                                </th>
+                                <th>Thao tác</th>
+                                </thead>
+                                <tbody>
+                                <tr th:each="category, i : ${categories}">
+                                    <td th:text="${i.index + 1}"></td>
+                                    <td th:text="${category.name}"></td>
+                                    <td><img th:src="${category.urlImage}" alt="" class="img-thumbnail" style="width: 70px;"></td>
+                                    <td th:text="${category.getCreatedDate()}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="formCategory">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title form-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/admin/category/update}" class="p-1" method="post" id="form"
+                          th:object="${category}">
+                        <div class="form-group">
+                            <label>Tên danh mục</label>
+                            <input type="text" th:field="*{name}" required class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Link Ảnh</label>
+                            <input type="text" th:field="*{urlImage}" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="d-contents">Mô tả</label>
+                            <textarea name="description" th:field="*{description}" class="form-control mt-2"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" onclick="$('#form').submit()">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="script">
+    <script>
+        $(document).ready(function () {
+            $('#btnAddCategory').click(function () {
+                $('.form-title').text('Thêm mới danh mục');
+                $('#formCategory').modal();
+            });
+        });
+        CKEDITOR.replace('description');
+    </script>
+</th:block>
+</body>
+</html>

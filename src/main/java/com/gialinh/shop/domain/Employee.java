@@ -1,13 +1,23 @@
 package com.gialinh.shop.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.Objects;
 
 /**
  * @author SlowV ❤ H3yae
@@ -16,15 +26,19 @@ import java.util.Objects;
  * <p>
  * Class entity Employee {@link com.gialinh.shop.domain.Employee}
  */
+@Getter
+@Setter
 @Entity
+@ToString
+@EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(
         name = "employees",
         uniqueConstraints = @UniqueConstraint(
                 columnNames = {"emp_roll"}
         )
 )
-@Getter
-@Setter
 public class Employee extends AbstractAuditingEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -63,42 +77,4 @@ public class Employee extends AbstractAuditingEntity implements Serializable {
     @OneToOne
     private Account account;
 
-
-    @Override
-    public int hashCode() {
-        return 31;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Employee)) return false;
-        Employee employee = (Employee) o;
-        return Objects.equals(getId(), employee.getId()) &&
-                Objects.equals(getIdCardFront(), employee.getIdCardFront()) &&
-                Objects.equals(getIdCardBack(), employee.getIdCardBack()) &&
-                Objects.equals(getFace(), employee.getFace()) &&
-                Objects.equals(empRoll, employee.empRoll) &&
-                Objects.equals(getBankNumber(), employee.getBankNumber()) &&
-                Objects.equals(getBankName(), employee.getBankName()) &&
-                Objects.equals(getBankCustomerName(), employee.getBankCustomerName()) &&
-                Objects.equals(getBankBranch(), employee.getBankBranch()) &&
-                Objects.equals(getJoinDate(), employee.getJoinDate());
-    }
-
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "id=" + id +
-                ", idCardFront='" + idCardFront + '\'' +
-                ", idCardBack='" + idCardBack + '\'' +
-                ", face='" + face + '\'' +
-                ", empRoll='" + empRoll + '\'' +
-                ", bankNumber='" + bankNumber + '\'' +
-                ", bankName='" + bankName + '\'' +
-                ", bankCustomerName='" + bankCustomerName + '\'' +
-                ", bankBranch='" + bankBranch + '\'' +
-                ", joinDate=" + joinDate +
-                '}';
-    }
 }
